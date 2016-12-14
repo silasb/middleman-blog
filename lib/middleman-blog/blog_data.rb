@@ -94,7 +94,11 @@ module Middleman
 
             # compute output path:
             #   substitute date parts to path pattern
-            article.destination_path = template_path @permalink_template, article
+            if article.data.has_key? 'permalink'
+              article.destination_path = ::Middleman::Util.normalize_path article.data['permalink']
+            else
+              article.destination_path = template_path @permalink_template, article
+            end
 
             @_articles << article
 
